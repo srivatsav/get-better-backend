@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  ip: localhost
+  
+db:
+  auth:
+    driver: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:8080/getbetter?autoReconnect=true
+    username: root
+    password: root
+    initial_connections: 2
+    max_active_connections: 5
+    min_idle_connections: 2
+    max_idle_connections: 10
+    max_waiting_time: 10000
+    validation-query: SELECT 1
+    validation-query-timeout: 30000
