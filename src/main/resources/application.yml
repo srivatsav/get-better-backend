@@ -5,9 +5,9 @@ server:
 db:
   auth:
     driver: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:8080/getbetter?autoReconnect=true
+    url: jdbc:mysql://localhost:3306/get_better_tool?autoReconnect=true
     username: root
-    password: root
+    password: password
     initial_connections: 2
     max_active_connections: 5
     min_idle_connections: 2
