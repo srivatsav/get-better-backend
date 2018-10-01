@@ -11,6 +11,7 @@ import com.tm.Bean.ParamWeightage;
 import com.tm.Bean.RatingParams;
 import com.tm.Bean.ResponseBean;
 import com.tm.Bean.Teams;
+import com.tm.Bean.TypeLevelParams;
 import com.tm.Bean.Users;
 import com.tm.Dao.ToolDao;
 import com.tm.Service.ToolService;
@@ -57,7 +58,7 @@ public class ToolServiceImpl implements ToolService{
         return toolDao.saveRatingParams(ratingParams);
     }
     
-    public ResponseBean<List<RatingParams>> getRatingParams(Long paramId, Long typeId,String param) {
+    public ResponseBean<List<TypeLevelParams>> getRatingParams(Long paramId, Long typeId,String param) {
         return toolDao.getRatingParams(paramId, typeId, param);
     }
     

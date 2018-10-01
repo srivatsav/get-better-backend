@@ -18,6 +18,7 @@ import com.tm.Bean.ParamWeightage;
 import com.tm.Bean.RatingParams;
 import com.tm.Bean.ResponseBean;
 import com.tm.Bean.Teams;
+import com.tm.Bean.TypeLevelParams;
 import com.tm.Bean.Users;
 import com.tm.Service.ToolService;
 
@@ -93,7 +94,7 @@ public class ToolController {
         return toolService.saveRatingParams(ratingParams);
     }
     
-    public @ResponseBody ResponseBean<List<RatingParams>> getRatingParams(
+    public @ResponseBody ResponseBean<List<TypeLevelParams>> getRatingParams(
             @RequestParam(value = "paramId",required = false)Long paramId,
             @RequestParam(value = "typeId",required = false)Long typeId,
             @RequestParam(value = "param",required = false)String param) {

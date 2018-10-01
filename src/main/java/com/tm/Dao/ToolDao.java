@@ -8,6 +8,7 @@ import com.tm.Bean.ParamWeightage;
 import com.tm.Bean.RatingParams;
 import com.tm.Bean.ResponseBean;
 import com.tm.Bean.Teams;
+import com.tm.Bean.TypeLevelParams;
 import com.tm.Bean.Users;
 
 public interface ToolDao {
@@ -24,7 +25,7 @@ public interface ToolDao {
     public ResponseBean<List<ParamType>> getParamTypes(Long paramTypeId,String type);
     
     public ResponseBean<Long> saveRatingParams(RatingParams ratingParams);
-    public ResponseBean<List<RatingParams>> getRatingParams(Long paramId, Long typeId,String param);
+    public ResponseBean<List<TypeLevelParams>> getRatingParams(Long paramId, Long typeId,String param);
     
     public ResponseBean<Long> saveParamWeightage(ParamWeightage paramWeightage);
     public ResponseBean<List<ParamWeightage>> getParamWeightage(Long paramId, Long teamId,Long designationId);

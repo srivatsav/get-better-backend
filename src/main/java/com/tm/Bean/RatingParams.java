@@ -3,8 +3,10 @@ package com.tm.Bean;
 public class RatingParams {
     private Long id;
     private String param;
+    private String paramType;
     private String status;
     private Long typeId;
+    
     public Long getId() {
         return id;
     }
@@ -29,6 +31,13 @@ public class RatingParams {
     public void setTypeId(Long typeId) {
         this.typeId = typeId;
     }
+    public String getParamType() {
+        return paramType;
+    }
+    public void setParamType(String paramType) {
+        this.paramType = paramType;
+    }
+    
     
     
 }

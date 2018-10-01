@@ -2,8 +2,11 @@ package com.tm.Dao.Impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.tm.Bean.Designations;
 import com.tm.Bean.ParamType;
@@ -20,6 +24,7 @@ import com.tm.Bean.ParamWeightage;
 import com.tm.Bean.RatingParams;
 import com.tm.Bean.ResponseBean;
 import com.tm.Bean.Teams;
+import com.tm.Bean.TypeLevelParams;
 import com.tm.Bean.Users;
 import com.tm.Dao.ToolDao;
 
@@ -391,8 +396,8 @@ public class ToolDaoImpl implements ToolDao{
         return response;
     }
     
-    public ResponseBean<List<RatingParams>> getRatingParams(Long paramId, Long typeId,String param) {
-        ResponseBean<List<RatingParams>> response = new ResponseBean<List<RatingParams>>();        
+    public ResponseBean<List<TypeLevelParams>> getRatingParams(Long paramId, Long typeId,String param) {
+        ResponseBean<List<TypeLevelParams>> response = new ResponseBean<List<TypeLevelParams>>();        
         try {
             LOGGER.info("ToolDaoImpl.getRatingParams :: typeId "+ typeId + " param "+param+ " paramId"+paramId);
             String procName = "p_get_rating_params_v1dot0";
@@ -411,6 +416,7 @@ public class ToolDaoImpl implements ToolDao{
                     ratingParams.setParam(rs.getString("f_rating_param"));
                     ratingParams.setTypeId(rs.getLong("f_type_id"));
                     ratingParams.setStatus(rs.getString("f_status"));
+                    ratingParams.setParamType(rs.getString("f_type"));
                     return ratingParams;
                 }
             });
@@ -421,7 +427,8 @@ public class ToolDaoImpl implements ToolDao{
                 String status = String.valueOf(outMap.get("out_status"));    
                 if (status.equals("Y")) {
                     List<RatingParams> ratingParamsList = (List<RatingParams>) outMap.get("ratingParams");
-                    response.setData(ratingParamsList);
+                    List<TypeLevelParams> typeParams = mapRatingParams(ratingParamsList);
+                    response.setData(typeParams);
                     response.setStatus("success");
                 } else {
                     response.setErrorCode((String) outMap.get("out_error_code")); 
@@ -434,6 +441,27 @@ public class ToolDaoImpl implements ToolDao{
             
         }
         return response;        
+    }
+    
+    private List<TypeLevelParams> mapRatingParams(List<RatingParams> paramsList) {
+        Map<String,List<RatingParams>> map = new HashMap<String,List<RatingParams>>();
+        List<TypeLevelParams> typeParamsList = new ArrayList<TypeLevelParams>();
+        if(!CollectionUtils.isEmpty(paramsList)) {            
+            for(RatingParams param : paramsList) {
+                if(map.get(param.getParamType())!=null) {
+                    TypeLevelParams typeLevelParam = new TypeLevelParams(); 
+                    typeLevelParam.setParamType(param.getParamType());
+                    List<RatingParams> ratingParams = 
+                            paramsList.stream().filter(p -> p.getTypeId().equals(param.getTypeId())).collect(Collectors.toList());
+                    typeLevelParam.setParamList(ratingParams);
+                    typeParamsList.add(typeLevelParam);
+                    map.put(param.getParamType(), ratingParams);
+                            
+                }                
+                
+            }
+        }
+        return typeParamsList;
     }
     
     
